@@ -1,13 +1,19 @@
 package trivia;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import static spark.Spark.get;
+import static spark.Spark.post;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+      get("/hello/:name", (req, res) -> {
+        return "hello" + req.params(":name");
+      });
+
+      post("/answers", (req, res) -> {
+        // do something
+        // return response
+      }
     }
 }

@@ -12,7 +12,4 @@ export CLASSPATH=$CLASSPATH:target/classes
 export ACTIVE_ENV="development"
 
 echo "*******************  EXECUTING PROGRAM******************************************"
-java -cp $CLASSPATH -Dactivejdbc.log -DACTIVE_ENV=development trivia.App
-# java -cp $CLASSPATH -Dactivejdbc.log -Denv.connections.file=/src/main/resources/database.properties -DACTIVE_ENV=development trivia.App
-
-# java -cp $CLASSPATH -Dactivejdbc.log trivia.App
+java -cp $CLASSPATH -Dactivejdbc.log -Denv.connections.file=/src/main/resources/database.properties -DACTIVE_ENV=development trivia.App
