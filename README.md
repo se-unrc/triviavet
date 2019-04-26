@@ -38,6 +38,34 @@ development.test.url=jdbc:mysql://localhost/trivia_test
 #### Correr el servidor web
 utilizar el script `./run.sh`
 
+#### Usar curl para crear requests al server
+
+A continuación algunos ejemplo de como se puede usar curl para consultar al servidor
+
+* List Users
+```
+curl http://localhost:4567/users
+```
+
+* List User
+```
+curl http://localhost:4567/users/1
+```
+
+* Create User
+```
+curl -X POST http://localhost:4567/users \
+  -H 'content-type: application/json' \
+  -d '{"firstName":"John", "lastName": "Doe", email: "john@doe.com"}'
+```
+
+* Update User
+```
+curl -X PUT http://localhost:4567/users/1 \
+  -H 'content-type: application/json' \
+  -d '{"firstName":"Michael"}'
+```
+
 # Licence
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
