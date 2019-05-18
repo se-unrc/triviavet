@@ -6,11 +6,13 @@ import static spark.Spark.options;
 
 import static spark.Spark.before;
 import static spark.Spark.after;
+import static spark.Spark.halt;
 
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.DB;
 
 import trivia.User;
+import trivia.BasicAuth;
 
 import com.google.gson.Gson;
 import java.util.Map;
@@ -31,10 +33,24 @@ class OptionParam
 
 public class App
 {
+    static User currentUser;
+
     public static void main( String[] args )
     {
       before((request, response) -> {
         Base.open();
+
+        String headerToken = (String) request.headers("Authorization");
+
+        if (
+          headerToken == null ||
+          headerToken.isEmpty() ||
+          !BasicAuth.authorize(headerToken)
+        ) {
+          halt(401);
+        }
+
+        currentUser = BasicAuth.getUser(headerToken);
       });
 
       after((request, response) -> {
@@ -67,6 +83,14 @@ public class App
         }
 
         return question;
+      });
+
+      post("/login", (req, res) -> {
+        res.type("application/json");
+
+        // if there is currentUser is because headers are correct, so we only
+        // return the current user here
+        return currentUser.toJson(true);
       });
 
       post("/users", (req, res) -> {

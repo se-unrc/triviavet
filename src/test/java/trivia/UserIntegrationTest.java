@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Base64;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,6 +37,8 @@ import com.google.gson.Gson;
 
 public class UserIntegrationTest {
     private static int PORT = 4567;
+    private static String ADMIN_USERNAME = "admin";
+    private static String ADMIN_PASSWORD = "admin";
 
     @AfterClass
     public static void tearDown() {
@@ -56,6 +59,14 @@ public class UserIntegrationTest {
         App.main(null);
 
         Spark.awaitInitialization();
+
+        // Create an admin user to log into system using Basic Auth before run the test
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/trivia_dev", "franco", "franco");
+        User u = new User();
+        u.set("username", ADMIN_USERNAME);
+        u.set("password", ADMIN_PASSWORD);
+        u.saveIt();
+        Base.close();
     }
 
     @Test
@@ -93,6 +104,12 @@ public class UserIntegrationTest {
 
       // This is the point where the connection is opened.
       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      // Set User to get Authorized request
+      String userCredentials = ADMIN_USERNAME + ":" + ADMIN_PASSWORD;
+      String basicAuth = "Basic " + new String(
+        Base64.getEncoder().encode(userCredentials.getBytes())
+      );
+      connection.setRequestProperty("Authorization", basicAuth);
 
       // set connection output to true (needs to be true since this request
       // is carrying an input (response) body.)
