@@ -2,6 +2,7 @@ package trivia;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.options;
 
 import static spark.Spark.before;
 import static spark.Spark.after;
@@ -38,6 +39,14 @@ public class App
 
       after((request, response) -> {
         Base.close();
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+        response.header("Access-Control-Allow-Headers",
+          "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
+      });
+
+      options("/*", (request, response) -> {
+        return "OK";
       });
 
       get("/hello/:name", (req, res) -> {
