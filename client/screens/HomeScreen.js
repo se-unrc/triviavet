@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
@@ -49,6 +50,20 @@ export default class HomeScreen extends React.Component {
             <Text onPress={this._handleLogout} style={styles.logout}>
               Logout
             </Text>
+
+            <Button
+              onPress={this.onPressCategoryButton.bind(this, 'Anatomia')}
+              title="Anatomia"
+              color="#841584"
+              accessibilityLabel="Learn more about this button"
+            />
+
+            <Button
+              onPress={this.onPressCategoryButton.bind(this, 'Dinosaurios')}
+              title="Dinosaurios"
+              color="#a4f590"
+              accessibilityLabel="Learn more about this button"
+            />            
           </View>
 
           <View style={styles.helpContainer}>
@@ -67,6 +82,10 @@ export default class HomeScreen extends React.Component {
         </View>
       </View>
     );
+  }
+
+  onPressCategoryButton = (category) => {
+    alert(category);
   }
 
   _handleLogout = async () => {
