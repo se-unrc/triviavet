@@ -69,3 +69,18 @@ curl -X PUT http://localhost:4567/users/1 \
 # Licence
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
+
+# How to create a PR
+
+```sh
+git checkout -b develop
+
+git  push  origin  develop
+```
+ ^    ^      ^       ^
+git comand remote branch_name
+
+
+copy url that console gave you and paste on some browser
+
+create your PR and check that you are creating PR to your forked repository
